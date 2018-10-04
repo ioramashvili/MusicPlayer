@@ -11,3 +11,4 @@
 - iOS 9.0+
 - Xcode 10
 - Swift 4.2
+- Open project with MusicPlayer.xcworkspace
