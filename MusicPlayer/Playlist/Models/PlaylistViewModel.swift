@@ -2,12 +2,12 @@
 public class PlaylistViewModel {
     public weak var vc: PlaylistViewController?
     fileprivate let player: PlayerProtocol
+    fileprivate var searchDataTask: URLSessionDataTask?
     
     public var searchResultLimit: Int {
         return 25
     }
     
-    fileprivate var request: URLSessionDataTask?
     public var searchTerm: String? {
         didSet {
             performSearch()
@@ -30,10 +30,10 @@ public class PlaylistViewModel {
     fileprivate func performSearch() {
         var term = searchTerm ?? ""
         term = term.isEmpty ? String.makeRandomCharacter() : term
-        request?.cancel()
+        searchDataTask?.cancel()
         vc?.searchLoaderIndicatorView.isHidden = false
         
-        request = iTunesNetworkClient.makeNewsAndOffersRequest(term: term.lowercased(), limit: searchResultLimit, media: .music).startWithExpected(type: SearchResultCodable.self) { [weak self] response in
+        searchDataTask = iTunesNetworkClient.makeNewsAndOffersRequest(term: term.lowercased(), limit: searchResultLimit, media: .music).startWithExpected(type: SearchResultCodable.self) { [weak self] response in
             guard let self = self else {return}
             
             defer {
@@ -46,7 +46,19 @@ public class PlaylistViewModel {
                 searchResultCodable: searchResultCodable,
                 player: self.player)
             dataProvider.delegate = self
+            
+            self.vc?.tableViewController.dataProvider = nil
+            self.vc?.tableViewController.tableView.layoutIfNeeded()
             self.vc?.tableViewController.dataProvider = dataProvider
+            self.scrollToFocusedSong()
+        }
+    }
+    
+    fileprivate func scrollToFocusedSong() {
+        if let indexPath = self.songInfo(for: player.song?.id)?.indexPath {
+        self.vc?.tableViewController.tableView.scrollToRow(at: indexPath, at: .middle, animated: false)
+            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(2)) { [weak self] in
+            }
         }
     }
     
@@ -63,11 +75,9 @@ public class PlaylistViewModel {
         if let songInfo = self.songInfo(for: player.song?.id) {
             songInfo.song.isPlaying = player.song?.isPlaying ?? false
             let tableView = vc?.tableViewController.tableView
-            UIView.performWithoutAnimation {
-                tableView?.beginUpdates()
-                tableView?.reloadRows(at: [songInfo.indexPath], with: .none)
-                tableView?.endUpdates()
-            }
+            tableView?.beginUpdates()
+            tableView?.reloadRows(at: [songInfo.indexPath], with: .fade)
+            tableView?.endUpdates()
         }
     }
 }
@@ -92,6 +102,7 @@ extension PlaylistViewModel: PlayerDelegate {
 extension PlaylistViewModel: PlaylistDataProviderDelegate {
     public func didSelect(song: Song, indexPath: IndexPath) {
         print(song.title, indexPath)
+        vc?.closeKeyboard()
         
         if player.song?.id == song.id {
             player.toggle()

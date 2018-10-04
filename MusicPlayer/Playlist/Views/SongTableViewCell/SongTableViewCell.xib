@@ -57,14 +57,18 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ehz-Ro-OXe">
                         <rect key="frame" x="500" y="96" width="20" height="20"/>
                         <subviews>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" animating="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="c4p-t2-MJe">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="isPlaying" translatesAutoresizingMaskIntoConstraints="NO" id="foG-cx-61n">
                                 <rect key="frame" x="0.0" y="0.0" width="20" height="20"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </activityIndicatorView>
+                                <color key="tintColor" red="0.95686274510000002" green="0.95686274510000002" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="foG-cx-61n" firstAttribute="top" secondItem="ehz-Ro-OXe" secondAttribute="top" id="0df-I7-HST"/>
+                            <constraint firstAttribute="trailing" secondItem="foG-cx-61n" secondAttribute="trailing" id="2GR-U7-NQg"/>
                             <constraint firstAttribute="height" constant="20" id="Pxl-1Z-B6I"/>
+                            <constraint firstItem="foG-cx-61n" firstAttribute="leading" secondItem="ehz-Ro-OXe" secondAttribute="leading" id="Xa0-na-fxa"/>
+                            <constraint firstAttribute="bottom" secondItem="foG-cx-61n" secondAttribute="bottom" id="gNY-1C-W61"/>
                             <constraint firstAttribute="width" constant="20" id="pe9-Lc-sD8"/>
                         </constraints>
                     </view>
@@ -80,10 +84,10 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
-                <outlet property="activityIndicatorView" destination="c4p-t2-MJe" id="Yda-65-fUQ"/>
                 <outlet property="albumLabel" destination="wIs-5U-FrC" id="uUH-hL-G28"/>
                 <outlet property="artistLabel" destination="fU3-P1-dID" id="hAe-hi-Dcj"/>
                 <outlet property="artworkImageView" destination="9Vl-8e-GwF" id="cHx-KK-AiA"/>
+                <outlet property="isPlayingImageView" destination="foG-cx-61n" id="WNH-cv-CRP"/>
                 <outlet property="titleLabel" destination="bh3-EO-Yer" id="ung-MJ-GEo"/>
             </connections>
             <point key="canvasLocation" x="300.80000000000001" y="228.48575712143929"/>
@@ -91,5 +95,6 @@
     </objects>
     <resources>
         <image name="default_artwork" width="1200" height="1200"/>
+        <image name="isPlaying" width="128" height="128"/>
     </resources>
 </document>

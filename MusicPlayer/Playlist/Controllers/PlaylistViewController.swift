@@ -40,7 +40,7 @@ public class PlaylistViewController: UIViewController {
         view.addGestureRecognizer(tap)
     }
     
-    @objc fileprivate func closeKeyboard() {
+    @objc public func closeKeyboard() {
         view.endEditing(true)
     }
     
