@@ -56,9 +56,7 @@ public class PlaylistViewModel {
     
     fileprivate func scrollToFocusedSong() {
         if let indexPath = self.songInfo(for: player.song?.id)?.indexPath {
-        self.vc?.tableViewController.tableView.scrollToRow(at: indexPath, at: .middle, animated: false)
-            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(2)) { [weak self] in
-            }
+            vc?.tableViewController.tableView.scrollToRow(at: indexPath, at: .middle, animated: false)
         }
     }
     
