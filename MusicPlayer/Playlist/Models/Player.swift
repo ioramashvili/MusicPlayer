@@ -7,7 +7,6 @@ public class Player: NSObject, PlayerProtocol {
     
     public var song: Song? {
         didSet {
-            print("now playing song ", song?.id ?? "")
             guard let song = song else {
                 pause()
                 return
@@ -43,8 +42,6 @@ public class Player: NSObject, PlayerProtocol {
     
     public override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if let player = object as? AVPlayer, keyPath == ObserverKeyPath.rate.keyPath {
-            print("player rate", player.rate)
-            
             let isPlaying = player.rate == 1.0
             song?.isPlaying = isPlaying
             playerDelegate?.playerStateChanged(to: isPlaying)
@@ -59,7 +56,6 @@ public class Player: NSObject, PlayerProtocol {
     
     fileprivate func calculateCurrentProgress(currentTime: CMTime) -> CGFloat {
         guard let duration = audioPlayer.currentItem?.duration, !currentTime.seconds.isNaN, !duration.seconds.isNaN else {return 0}
-        print(currentTime.fomratted(), duration.fomratted())
         return CGFloat(currentTime.seconds / duration.seconds)
     }
     

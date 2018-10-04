@@ -101,7 +101,6 @@ extension PlaylistViewModel: PlayerDelegate {
 
 extension PlaylistViewModel: PlaylistDataProviderDelegate {
     public func didSelect(song: Song, indexPath: IndexPath) {
-        print(song.title, indexPath)
         vc?.closeKeyboard()
         
         if player.song?.id == song.id {
