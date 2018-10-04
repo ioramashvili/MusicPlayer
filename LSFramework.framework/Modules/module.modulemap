@@ -1,0 +1,11 @@
+framework module LSFramework {
+  umbrella header "LSFramework.h"
+
+  export *
+  module * { export * }
+}
+
+module LSFramework.Swift {
+    header "LSFramework-Swift.h"
+    requires objc
+}
